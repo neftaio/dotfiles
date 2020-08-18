@@ -8,7 +8,8 @@ set -euo pipefail
 ##? Usage:
 ##?    install
 
-echo "🚀 Welcome to the rgomezcasas/dotfiles installer!"
+echo "🚀 Welcome to the neftaio/dotfiles installer!"
+echo "    Thanks to rgomezcasas/dotfiles             "
 echo "-------------------------------------------------"
 echo
 read -rp "🤔  Where do you want to clone the dotfiles? (default ~/.dotfiles): " DOTFILES_PATH
@@ -17,6 +18,6 @@ echo
 export DOTFILES_PATH="$HOME/.dotfiles"
 echo "👉  Cloning into: '$DOTFILES_PATH'"
 
-git clone --depth 1 git@github.com:rgomezcasas/dotfiles.git "$DOTFILES_PATH"
+git clone --recursive --depth 1 git@github.com:neftaio/dotfiles.git "$DOTFILES_PATH"
 
 "$DOTFILES_PATH/bin/dot" self install

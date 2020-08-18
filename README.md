@@ -1,5 +1,5 @@
 <h3 align="center">
-    rgomezcasas/dotfiles
+    neftaio/dotfiles
     <a href="mac"><img height="12" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/apple.svg" /></a>
     <a href="linux"><img height="12" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/linux.svg" /></a>
     <a href="linux"><img height="12" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/windows.svg" /></a>
@@ -7,7 +7,7 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/1331435/70709921-530e8780-1cde-11ea-814c-7b63566670d4.gif" alt="rgomezcasas/dotfiles" width="80%">
   <br>
-  <sub>Simple, fast, productivity-increaser dotfiles</sub>
+  <sub>Simple, fast, productivity-increaser dotfiles thanks to rgomezcasas</sub>
 </p>
 <p align="center">
   <a href="#-installation">Install</a>&nbsp;&nbsp;•&nbsp;
@@ -19,7 +19,7 @@
 
 ## 🚀 Installation
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/rgomezcasas/dotfiles/master/installer)
+bash <(curl -s https://raw.githubusercontent.com/neftaio/dotfiles/master/installer)
 ```
 Also, I have my **personal** [installation guide](doc/installation-guide.md).
 
@@ -59,6 +59,7 @@ dot self update
 ## 🔥 Other dotfiles I like
  * https://github.com/Tuurlijk/dotfiles: Good performance
  * https://github.com/denisidoro/dotfiles: `dot` command "inspiration"
+ * https://github.com/rgomezcasas/dotfiles: Fork
 
 
 ## ⚖️ License
