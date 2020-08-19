@@ -1,105 +1,405 @@
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
+set number
+set mouse=a
+set numberwidth=1
+set clipboard=unnamed
+syntax enable
+set showcmd
+set ruler
+set encoding=utf-8
+set showmatch
+set sw=4
+set ts=4
+set relativenumber
+set laststatus=2
+set colorcolumn=81,121
 
-" ================ General Config ====================
+call plug#begin('~/.vim/plugged')
 
-set number                      "Line numbers are good
-set backspace=indent,eol,start  "Allow backspace in insert mode
-set history=1000                "Store lots of :cmdline history
-set showcmd                     "Show incomplete cmds down the bottom
-set showmode                    "Show current mode down the bottom
-set gcr=a:blinkon0              "Disable cursor blink
-set visualbell                  "No sounds
-set autoread                    "Reload files changed outside vim
-set ruler                       "Add the current line and column"
+" Themes
+Plug 'Rigellute/shades-of-purple.vim'
 
-" This makes vim act like all other editors, buffers can
-" exist in the background without being in a window.
-" http://items.sjbach.com/319/configuring-vim-right
-set hidden
+" IDE
+Plug 'easymotion/vim-easymotion'
+Plug 'scrooloose/nerdtree'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-"turn on syntax highlighting
-syntax on
+" better search using fuzzy finding FZF
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
-" Change leader to a comma because the backslash is too far away
-" That means all \x commands turn into ,x
-" The mapleader has to be set before vundle starts loading all
-" the plugins.
-let mapleader=","
+" makes vim autocomplete (), [], {}, '', "", etc
+Plug 'jiangmiao/auto-pairs'
 
-" =============== Vundle Initialization ===============
-" This loads all the plugins specified in ~/.vim/vundles.vim
-" Use Vundle plugin to manage all other plugins
-if filereadable(expand("~/vim/vundles.vim"))
-  source ~/vim/vundles.vim
+"see the git status of the current line in
+" the gutter
+Plug 'airblade/vim-gitgutter'
+
+" better way to comment lines inside vim
+Plug 'preservim/nerdcommenter'
+
+" matches pairs of things (if-else, tags, etc)
+Plug 'andymass/vim-matchup'
+
+" necessary to follow styles of a project
+Plug 'editorconfig/editorconfig-vim'
+
+" previews markdown using local server
+"Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+
+" interesting file navigator in modal window
+Plug 'liuchengxu/vim-clap'
+
+" nice way to dispatch work in the background
+Plug 'tpope/vim-dispatch'
+
+" PHP specific plugins
+Plug 'StanAngeloff/php.vim', { 'for': 'php' }
+Plug 'stephpy/vim-php-cs-fixer', { 'for': 'php' }
+Plug 'jwalton512/vim-blade'
+Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
+Plug 'nishigori/vim-php-dictionary', {'for': 'php'}
+Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'} " php refactoring options"
+Plug '2072/php-indenting-for-vim', {'for': 'php'}
+Plug 'tobyS/vmustache' | Plug 'tobyS/pdv', {'for': 'php'} " php doc autocompletion"
+
+" Status bar
+Plug 'itchyny/lightline.vim'
+
+" TagBar
+Plug 'majutsushi/tagbar'
+
+" Rainbow for parenthesis
+Plug 'luochen1990/rainbow'
+
+" Multiple Cursos
+Plug 'terryma/vim-multiple-cursors'
+
+" Use PHP CS FIXER
+Plug 'stephpy/vim-php-cs-fixer'
+
+" Use PHP namespaces
+Plug 'arnaud-lb/vim-php-namespace'
+Plug 'craigemery/vim-autotag'
+
+" Easy align
+Plug 'junegunn/vim-easy-align'
+
+" surrounding text objects with whatever you want (paranthesis, quotes, html
+" tags...)
+Plug 'tpope/vim-surround'
+
+"JS and Typescript
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main'  }
+Plug 'jparise/vim-graphql'
+
+" Snipets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'algotech/ultisnips-php'
+Plug 'mlaursen/vim-react-snippets'
+
+"Latex
+Plug 'lervag/vimtex'
+
+call plug#end()
+
+
+
+if (has("termguicolors"))
+ set termguicolors
 endif
 
-" ================ Turn Off Swap Files ==============
+colorscheme shades_of_purple
+"hi Normal guibg=darkblue
+hi Normal guibg=NONE ctermbg=NONE
 
-set noswapfile
-set nobackup
-set nowb
+let g:shades_of_purple_lightline = 1
+let g:lightline = { 'colorscheme': 'shades_of_purple' }
+let NERDTreeQuitOnOpen=1
 
-" ================ Persistent Undo ==================
-" Keep undo history across sessions, by storing in file.
-" Only works all the time.
-if has('persistent_undo') && !isdirectory(expand('~').'/vim/backups')
-  silent !mkdir ~/vim/backups > /dev/null 2>&1
-  set undodir=~/vim/backups
-  set undofile
-endif
+filetype plugin indent on
+" FZF modal window layout and extra info
+" uses <CTRL>+P to fuzzy search in normal mode
+"nmap <silent> <C-P> :Files<CR>"
+nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':Files' : ':GFiles --exclude-standard --others --cached')."\<cr>"
 
-" ================ Indentation ======================
+" FZF window will take almost full screen
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9  }  }
 
-set autoindent
-set smartindent
-set smarttab
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
-set expandtab
+" Rainbow parenthesis
+let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle"
 
-" Auto indent pasted text
-nnoremap p p=`]<C-o>
-nnoremap P P=`]<C-o>
+"PhpCsFixer
+let g:php_cs_fixer_path = "~/.composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer"
+"let g:php_cs_fixer_level = "symfony"
+"let g:php_cs_fixer_config = "default"
+let g:php_cs_fixer_rules = "@PSR2"
+let g:php_cs_fixer_php_path = "php"
+let g:php_cs_fixer_enable_default_mapping = 1
+let g:php_cs_fixer_dry_run = 0
+let g:php_cs_fixer_verbose = 0
 
-filetype plugin on
-filetype indent on
+nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
+nnoremap <silent><leader>pcf :call PhpCsFixerFixFile()<CR>
+autocmd BufWritePost *.php silent! call PhpCsFixerFixFile()
 
-set nowrap       "Don't wrap lines
-set linebreak    "Wrap lines at convenient points
+" PDV phpdoc configuration
+let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
+nmap <C-m> :call pdv#DocumentWithSnip()<CR>
 
-" ================ Folds ============================
+let g:UltiSnipsExpandTrigger = "<nop>"
+"let g:UltiSnipsExpandTrier="<nop>"
+"let g:UltiSnipsListSnippets="<c-s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<C-l>"
+let g:UltiSnipsJumpBackwardTrigger="<C-h>"
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
 
-set foldmethod=indent   "fold based on indent
-set foldnestmax=3       "deepest fold is 3 levels
-set nofoldenable        "dont fold by default
 
-" ================ Completion =======================
+" Php namespaces configuration
+function! IPhpInsertUse()
+            call PhpInsertUse()
+                call feedkeys('a',  'n')
+endfunction
+autocmd FileType php inoremap <Leader>uu <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>uu :call PhpInsertUse()<CR>
 
-set wildmode=list:longest
-set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
-set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
-set wildignore+=*vim/backups*
-set wildignore+=*sass-cache*
-set wildignore+=*DS_Store*
-set wildignore+=vendor/cache/**
-set wildignore+=*.gem
-set wildignore+=log/**
-set wildignore+=tmp/**
-set wildignore+=*.png,*.jpg,*.gif
+
+function! IPhpExpandClass()
+            call PhpExpandClass()
+                call feedkeys('a', 'n')
+endfunction
+autocmd FileType php inoremap <Leader>ee <Esc>:call IPhpExpandClass()<CR>
+autocmd FileType php noremap <Leader>ee :call PhpExpandClass()<CR>
+
+let g:php_namespace_sort_after_insert = 1
+autocmd FileType php inoremap <Leader>sj <Esc>:call PhpSortUse()<CR>
+autocmd FileType php noremap <Leader>sj :call PhpSortUse()<CR>
+
+" Easy Align
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+" Auto pairsno
+"let g:AutoPairsShortcutToggle = '<C-j>'
+let g:AutoPairsShortcutFastWrap = '<C-j>'
+"let g:AutoPairsShortcutJump = '<M-n>'
+"let g:AutoPairsShortcutBackInsert = '<M-b>'
+
 
 "
-" ================ Scrolling ========================
+"
+"Configuration for PHP
+"
+"
+if executable('intelephense')
+      augroup LspPHPIntelephense
+              au!
+                  au User lsp_setup call lsp#register_server({
+                          \ 'name': 'intelephense',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'intelephense --stdio']},
+        \ 'whitelist': ['php'],
+        \ 'initialization_options': {'storagePath': '/tmp/intelephense'},
+        \ 'workspace_config': {
+        \   'intelephense': {
+        \     'files': {
+        \       'maxSize': 1000000,
+        \       'associations': ['*.php', '*.phtml'],
+        \       'exclude': [],
+        \     },
+        \     'completion': {
+        \       'insertUseDeclaration': v:true,
+        \       'fullyQualifyGlobalConstantsAndFunctions': v:false,
+        \       'triggerParameterHints': v:true,
+        \       'maxItems': 100,
+        \     },
+        \     'format': {
+        \       'enable': v:true
+        \     },
+        \   },
+        \ }
+        \})
+  augroup END
+endif
 
-set scrolloff=8         "Start scrolling when we're 8 lines away from margins
-set sidescrolloff=15
-set sidescroll=1
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" ================ Search ===========================
+function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-set incsearch       " Find the next match as we type the search
-set hlsearch        " Highlight searches by default
-set ignorecase      " Ignore case when searching...
-set smartcase       " ...unless we type a capital
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" " position. Coc only does snippet and additional edit on confirm.
+" " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+      inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+  else
+        inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+        if (index(['vim','help'], &filetype) >= 0)
+                execute 'h '.expand('<cword>')
+        else
+                call CocAction('doHover')
+        endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder.
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current line.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Introduce function text object
+" NOTE: Requires 'textDocument.documentSymbol' support from the language
+" server.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <TAB> for selections ranges.
+" NOTE: Requires 'textDocument/selectionRange' support from the language
+" server.
+" coc-tsserver, coc-python are the examples of servers that support it.
+"nmap <silent> <TAB> <Plug>(coc-range-select)
+"xmap <silent> <TAB> <Plug>(coc-range-select)
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings using CoCList:
+" Show all diagnostics.
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+let g:coc_global_extensions = [ 'coc-tsserver', 'coc-phpls']
+
+"
+"
+" JS Development configuration
+"
+"
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
+if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+        let g:coc_global_extensions += ['coc-prettier']
+endif
+
+if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+        let g:coc_global_extensions += ['coc-eslint']
+endif
+
+" Automatic behavior cursor over word
+function! ShowDocIfNoDiagnostic(timer_id)
+        if (coc#util#has_float() == 0)
+                silent call CocActionAsync('doHover')
+        endif
+endfunction
+
+function! s:show_hover_doc()
+        call timer_start(500, 'ShowDocIfNoDiagnostic')
+endfunction
+
+autocmd CursorHoldI * :call <SID>show_hover_doc()
+autocmd CursorHold * :call <SID>show_hover_doc()
+
+"Latex configuration
+let g:tex_flavor = 'latex'
+
+"
+"
+"Mapp of keys
+"
+"
+let mapleader=" "
+
+nmap <Leader>s <Plug>(easymotion-s2)
+nmap <Leader>nt :NERDTreeFind<CR>
+
+nmap <Leader>w :w<CR>
+nmap <Leader>q :q<CR>
+nmap <Leader>bn :bn<CR>
+nmap <Leader>bp :bp<CR>
+nmap <Leader>bd :bd<CR>
+" TagbarToggle
+nmap <Leader>tt :TagbarToggle<CR>
+
+"nmap <Leader>r :echo "hello.."<CR>
