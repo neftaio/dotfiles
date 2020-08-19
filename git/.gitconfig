@@ -80,8 +80,8 @@
 	# Detect whitespace errors when applying a patch
 	whitespace = fix
 [commit]
-	gpgsign = true
+	gpgsign = false
 [tag]
-	gpgsign = true
+	gpgsign = false
 [gpg]
 	program = /usr/bin/gpg
