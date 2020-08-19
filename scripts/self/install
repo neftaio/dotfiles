@@ -13,8 +13,8 @@ source "$DOTFILES_PATH/scripts/self/utils/install.sh"
 docs::eval "$@"
 
 "$DOTFILES_PATH/bin/dot" self update
-chsh -s /bin/zsh
-source "$DOTFILES_PATH/modules/zimfw/zimfw.zsh" install
+chsh -s $(which zsh)
+zsh "$DOTFILES_PATH/modules/zimfw/zimfw.zsh" install
 
 if platform::is_macos; then
   log::note "Installing MacOS  custom packages"
