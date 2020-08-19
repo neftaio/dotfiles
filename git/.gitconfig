@@ -1,7 +1,6 @@
 [user]
-	name = Rafa Gómez
-	email = rgomezcasas@gmail.com
-	signingkey = AC2C04F065F7ADB8
+	name = Neftali Forero
+	email = neftaiof@gmail.com
 
 [fetch]
 	prune = true
@@ -85,4 +84,4 @@
 [tag]
 	gpgsign = true
 [gpg]
-	program = /usr/local/bin/gpg
+	program = /usr/bin/gpg
