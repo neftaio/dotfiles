@@ -29,11 +29,11 @@ case $1 in
 "test_performance")
   echo "With native macOS ZSH /bin/zsh"
   /bin/zsh --version
-  for i in $(seq 1 10); do /usr/bin/time /bin/zsh -i -c exit; done
+  for i in $(seq 1 10); do time /bin/zsh -i -c exit; done
   echo ""
   echo "With Brew ZSH /usr/local/bin/zsh"
   /usr/local/bin/zsh --version
-  for i in $(seq 1 10); do /usr/bin/time /usr/local/bin/zsh -i -c exit; done
+  for i in $(seq 1 10); do time /usr/local/bin/zsh -i -c exit; done
 
   echo ""
   echo "Currently using $(command -v zsh)"
