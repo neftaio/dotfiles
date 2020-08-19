@@ -22,6 +22,7 @@
 bash <(curl -s https://raw.githubusercontent.com/neftaio/dotfiles/master/installer)
 ```
 Also, I have my **personal** [installation guide](doc/installation-guide.md).
+Used in Debian WSL
 
 ## Performance 🐢💨
 I like to open/split the iTerm and immediately have all operative. I've reached this goal with this configuration.
