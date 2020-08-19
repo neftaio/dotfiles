@@ -16,7 +16,7 @@ self_update() {
 update_submodules() {
   cd "$ZIM_HOME" || exit
 
-  zsh "$ZIM_HOME/zimfw.zsh" upgrade
+  #zsh "$ZIM_HOME/zimfw.zsh" upgrade
   rm -rf "$ZIM_HOME/modules/"* && zsh "$ZIM_HOME/zimfw.zsh" install
 
   git submodule foreach git reset --hard
