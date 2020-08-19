@@ -1,5 +1,5 @@
 numpy==1.19.1
-protobuf==3.12.3
+protobuf==3.13.0
 pygame==2.0.0.dev6
 PyQt5==5.15.0
 PyQt5-sip==4.19.23
