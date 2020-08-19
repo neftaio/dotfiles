@@ -18,6 +18,6 @@ echo
 export DOTFILES_PATH="$HOME/.dotfiles"
 echo "👉  Cloning into: '$DOTFILES_PATH'"
 
-git clone --depth 1 git@github.com:neftaio/dotfiles.git "$DOTFILES_PATH"
+git clone --recursive --depth 1 git@github.com:neftaio/dotfiles.git "$DOTFILES_PATH"
 
 "$DOTFILES_PATH/bin/dot" self install
