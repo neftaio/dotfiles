@@ -1,4 +1,4 @@
-ulimit -n 20000
+ulimit -n 4000
 ulimit -u 2048
 
 source "$DOTFILES_PATH/shell/aliases.sh"
