@@ -14,7 +14,7 @@ docs::eval "$@"
 commit=$(
   git log --graph \
     --color=always \
-    --date=human \
+    --date=short \
     --format="%C(auto)%h%d %s %C(black)%C(bold)%ad by %an" |
     fzf --ansi --no-sort \
       --preview '(git diff-tree --no-commit-id --name-status -r {2})' \
