@@ -39,4 +39,5 @@ export path=(
 #  "/usr/local/sbin"
   "/usr/sbin"
   "/sbin"
+  "$HOME/.cargo/bin"
 )
