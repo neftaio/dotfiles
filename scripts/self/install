@@ -16,18 +16,6 @@ docs::eval "$@"
 #chsh -s $(which zsh)
 zsh "$DOTFILES_PATH/modules/zimfw/zimfw.zsh" install
 
-if platform::is_macos; then
-  log::note "Installing MacOS  custom packages"
-
-  install_macos_custom
-fi
-
-if platform::is_linux; then
-  log::note "Installing Linux 🐧 custom packages"
-
-  install_linux_custom
-fi
-
 log::note "Installing python packages"
 pip install -r "$DOTFILES_PATH/langs/python/requirements.txt" || true
 pip install -r "$DOTFILES_PATH/langs/python/requirements.txt"
@@ -46,9 +34,9 @@ read -rp "Git config: And your name? " git_name
 
 git config --global user.email "$git_email"
 git config --global user.name "$git_name"
-#git config --global --unset user.signingkey
-#git config --global --unset commit.gpgsign
-#git config --global --unset tag.gpgsign
-#git config --global --unset gpg.program
+git config --global --unset user.signingkey
+git config --global --unset commit.gpgsign
+git config --global --unset tag.gpgsign
+git config --global --unset gpg.program
 
 log::warning "Remember to add the origin of your fork!"
