@@ -15,7 +15,7 @@ docs::eval "$@"
 
 project_root_directories=(
   "$HOME/Develop/Projects/"*
-  "$HOME/Code/Dinamicacd/"*
+  "$HOME/Develop/Dinamicacd/"*
   "$DOTFILES_PATH"
 )
 [[ "$choose" == "false" ]] && filterer="fzf" || filterer="choose -c 181818"
