@@ -33,3 +33,6 @@ alias c.='(code $PWD &>/dev/null &)'
 alias o.='open .'
 alias l='ls -la --color=auto'
 alias ls='ls --color=auto'
+
+# Terraform
+alias tcn="dot terraform espconnect"
