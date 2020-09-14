@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+source "$DOTFILES_PATH/scripts/core/_main.sh"
+projects=~/Develop/Dinamicacd/dina-devops
+terraform=terraform
+
+##? Conect to a ec2 instance running ESP containers
+#?? 1.0.0
+##?
+##? Usage:
+##?   espconnect
+docs::eval "$@"
+
+cd $projects
+
+project=$(ls $projects | grep ".e-smartprocess" | fzf --height 40%)
+
+cd $projects/$project
+
+ip=$($terraform output | awk '{if ($1=="public_ip") print $3}')
+
+acceskey=$(ls $projects | grep ".pem" | awk '{if (NR==1) print $0}')  
+
+if [[ -n $acceskey ]]; then
+	if [[ -n $ip ]]; then
+		echo "Machine IP: $ip"
+
+		ssh -i $projects/$acceskey ec2-user@$ip
+	else
+		echo "IP Not Found"
+	fi
+else
+	echo "Not Key Found"
+fi
