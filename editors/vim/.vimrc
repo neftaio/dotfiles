@@ -63,13 +63,14 @@ Plug 'tpope/vim-dispatch'
 
 " PHP specific plugins
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
-Plug 'stephpy/vim-php-cs-fixer', { 'for': 'php' }
+"Plug 'stephpy/vim-php-cs-fixer', { 'for': 'php' }
 Plug 'jwalton512/vim-blade'
 Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
 Plug 'nishigori/vim-php-dictionary', {'for': 'php'}
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'} " php refactoring options"
 Plug '2072/php-indenting-for-vim', {'for': 'php'}
 Plug 'tobyS/vmustache' | Plug 'tobyS/pdv', {'for': 'php'} " php doc autocompletion"
+Plug 'neftaio/vim-php-cs-fixer-v2'
 
 " Status bar
 Plug 'itchyny/lightline.vim'
@@ -82,9 +83,6 @@ Plug 'luochen1990/rainbow'
 
 " Multiple Cursos
 Plug 'terryma/vim-multiple-cursors'
-
-" Use PHP CS FIXER
-Plug 'stephpy/vim-php-cs-fixer'
 
 " Use PHP namespaces
 Plug 'arnaud-lb/vim-php-namespace'
@@ -107,13 +105,33 @@ Plug 'jparise/vim-graphql'
 " Snipets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'algotech/ultisnips-php'
+"Plug 'algotech/ultisnips-php'
 Plug 'mlaursen/vim-react-snippets'
+Plug 'neftaio/my-snips'
+"
+"AutoComplete
+Plug 'ycm-core/YouCompleteMe'
+
 
 "Latex
 Plug 'lervag/vimtex'
 
 call plug#end()
+
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" PDV phpdoc configuration
+let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
+nmap <C-m> :call pdv#DocumentWithSnip()<CR>
+"let g:UltiSnipsExpandTrigger = "<nop>"
+let g:UltiSnipsExpandTrigger = "<C-k>"
+"let g:UltiSnipsExpandTrier="<nop>"
+"let g:UltiSnipsListSnippets="<c-s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<C-l>"
+let g:UltiSnipsJumpBackwardTrigger="<C-h>"
+"let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/plugged/my-snips']
 
 
 
@@ -143,8 +161,6 @@ let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTo
 
 "PhpCsFixer
 let g:php_cs_fixer_path = "~/.composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer"
-"let g:php_cs_fixer_level = "symfony"
-"let g:php_cs_fixer_config = "default"
 let g:php_cs_fixer_rules = "@PSR2"
 let g:php_cs_fixer_php_path = "php"
 let g:php_cs_fixer_enable_default_mapping = 1
@@ -154,17 +170,6 @@ let g:php_cs_fixer_verbose = 0
 nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
 nnoremap <silent><leader>pcf :call PhpCsFixerFixFile()<CR>
 autocmd BufWritePost *.php silent! call PhpCsFixerFixFile()
-
-" PDV phpdoc configuration
-let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
-nmap <C-m> :call pdv#DocumentWithSnip()<CR>
-
-let g:UltiSnipsExpandTrigger = "<nop>"
-"let g:UltiSnipsExpandTrier="<nop>"
-"let g:UltiSnipsListSnippets="<c-s-tab>"
-let g:UltiSnipsJumpForwardTrigger="<C-l>"
-let g:UltiSnipsJumpBackwardTrigger="<C-h>"
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
 
 
 " Php namespaces configuration
@@ -411,3 +416,4 @@ nmap <Leader>bd :bd<CR>
 nmap <Leader>tt :TagbarToggle<CR>
 
 "nmap <Leader>r :echo "hello.."<CR>
+"
