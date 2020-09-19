@@ -70,7 +70,7 @@ Plug 'nishigori/vim-php-dictionary', {'for': 'php'}
 Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'} " php refactoring options"
 Plug '2072/php-indenting-for-vim', {'for': 'php'}
 Plug 'tobyS/vmustache' | Plug 'tobyS/pdv', {'for': 'php'} " php doc autocompletion"
-Plug 'neftaio/vim-php-cs-fixer-v2'
+Plug 'neftaio/vim-php-cs-fixer-v2', { 'for': 'php' }
 
 " Status bar
 Plug 'itchyny/lightline.vim'
@@ -105,12 +105,12 @@ Plug 'jparise/vim-graphql'
 " Snipets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-"Plug 'algotech/ultisnips-php'
+Plug 'algotech/ultisnips-php'
 Plug 'mlaursen/vim-react-snippets'
 Plug 'neftaio/my-snips'
 "
 "AutoComplete
-Plug 'ycm-core/YouCompleteMe'
+"Plug 'ycm-core/YouCompleteMe'
 
 
 "Latex
@@ -118,14 +118,11 @@ Plug 'lervag/vimtex'
 
 call plug#end()
 
-"let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
 " PDV phpdoc configuration
 let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
 nmap <C-m> :call pdv#DocumentWithSnip()<CR>
 "let g:UltiSnipsExpandTrigger = "<nop>"
+"let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsExpandTrigger = "<C-k>"
 "let g:UltiSnipsExpandTrier="<nop>"
 "let g:UltiSnipsListSnippets="<c-s-tab>"
@@ -412,6 +409,8 @@ nmap <Leader>q :q<CR>
 nmap <Leader>bn :bn<CR>
 nmap <Leader>bp :bp<CR>
 nmap <Leader>bd :bd<CR>
+nmap <Leader>vv <C-w>v
+nmap <Leader>hh <C-w>S
 " TagbarToggle
 nmap <Leader>tt :TagbarToggle<CR>
 
