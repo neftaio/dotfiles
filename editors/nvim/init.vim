@@ -119,10 +119,11 @@ Plug 'mileszs/ack.vim'
 Plug 'lervag/vimtex'
 
 "Python IDE
-"Plug 'numirias/semshi'
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'dense-analysis/ale'
 Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'jupyter-vim/jupyter-vim'
 
 call plug#end()
 
@@ -399,8 +400,17 @@ endfunction
 autocmd CursorHoldI * :call <SID>show_hover_doc()
 autocmd CursorHold * :call <SID>show_hover_doc()
 
-"Latex configuration
+"Latex configuration packages
 let g:tex_flavor = 'latex'
+
+" Always use the same virtualenv for vim, regardless of what Python
+" environment is loaded in the shell from which vim is launched
+let g:vim_virtualenv_path = './venv'
+if exists('g:vim_virtualenv_path')
+    pythonx import os; import vim
+    pythonx activate_this = os.path.join(vim.eval('g:vim_virtualenv_path'), 'bin/activate_this.py')
+    pythonx with open(activate_this) as f: exec(f.read(), {'__file__': activate_this})
+endif
 
 "
 "
@@ -425,3 +435,4 @@ nnoremap <Leader>a :Ack!<Space>
 
 "nmap <Leader>r :echo "hello.."<CR>
 "
+" 
