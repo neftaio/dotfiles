@@ -36,3 +36,10 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 
 #Jupyter local path installed using pip
 export PATH="$HOME/.local/bin:$PATH"
+
+#Composer export
+export PATH="$HOME/.composer/vendor/bin:$PATH"
+
+source ~/.gitlabkey
+
+#wal -i ~/Room/Documets/Images/WallPaper/selected/w5.jpg

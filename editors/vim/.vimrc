@@ -12,14 +12,13 @@ set ts=4
 set relativenumber
 set laststatus=2
 set colorcolumn=81,121
+set pastetoggle=<F2>
 
-if exists('+termguicolors')
-	let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-	let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-	set termguicolors
-endif
-
-
+"if exists('+termguicolors')
+	"let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+	"let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+	"set termguicolors
+"endif
 
 call plug#begin('~/.vim/plugged')
 
@@ -101,6 +100,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main'  }
 Plug 'jparise/vim-graphql'
+Plug 'prettier/vim-prettier', {'do': 'yarn install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html']}
 
 " Snipets
 Plug 'SirVer/ultisnips'
@@ -111,7 +111,8 @@ Plug 'neftaio/my-snips'
 
 "AutoComplete
 "Plug 'ycm-core/YouCompleteMe'
-"
+Plug 'codota/tabnine-vim'
+
 "Ack to serch like as grep
 Plug 'mileszs/ack.vim'
 
@@ -123,6 +124,16 @@ Plug 'lervag/vimtex'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'dense-analysis/ale'
 Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'nvie/vim-flake8'
+Plug 'sansyrox/vim-python-virtualenv'
+
+"Documentation
+Plug 'kkoomen/vim-doge'
+
+"Tailwind
+Plug 'rodrigore/coc-tailwind-intellisense', {'do': 'npm install'}
+
+Plug 'dylanaraps/wal.vim'
 
 call plug#end()
 
@@ -140,16 +151,17 @@ let g:UltiSnipsJumpBackwardTrigger="<C-h>"
 
 
 
-if (has("termguicolors"))
- set termguicolors
-endif
+"if (has("termguicolors"))
+ "set termguicolors
+"endif
 
-colorscheme shades_of_purple
+colorscheme wal
+"colorscheme shades_of_purple
 "hi Normal guibg=darkblue
 hi Normal guibg=NONE ctermbg=NONE
 
 let g:shades_of_purple_lightline = 1
-let g:lightline = { 'colorscheme': 'shades_of_purple' }
+"let g:lightline = { 'colorscheme': 'shades_of_purple' }
 let NERDTreeQuitOnOpen=1
 
 filetype plugin indent on
@@ -178,6 +190,7 @@ autocmd BufWritePost *.php silent! call PhpCsFixerFixFile()
 
 
 " Php namespaces configuration
+set tags+=tags,tags.vendors,tags.tests,tags.tests.Unit,tests.Feature,tests.FeatureExternal,tests.RESTclient
 function! IPhpInsertUse()
             call PhpInsertUse()
                 call feedkeys('a',  'n')
@@ -258,7 +271,7 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <c-@> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " " position. Coc only does snippet and additional edit on confirm.
@@ -294,7 +307,7 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
+nmap <silent> rn <Plug>(coc-rename)
 
 " Formatting selected code.
 xmap <leader>f  <Plug>(coc-format-selected)
@@ -303,20 +316,21 @@ nmap <leader>f  <Plug>(coc-format-selected)
 augroup mygroup
     autocmd!
     " Setup formatexpr specified filetype(s).
-    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+	autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+	autocmd FileType typescript,javascript setlocal ts=2 sts=2 sw=2
     " Update signature help on jump placeholder.
     autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+xmap <silent> as <Plug>(coc-codeaction-selected)
+nmap <silent> as <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current line.
-nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <silent> ac <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
+nmap <silent> qf <Plug>(coc-fix-current)
 
 " Introduce function text object
 " NOTE: Requires 'textDocument.documentSymbol' support from the language
@@ -351,21 +365,21 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 
 " Mappings using CoCList:
 " Show all diagnostics.
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent> <space>sa  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+nnoremap <silent> <space>se  :<C-u>CocList extensions<cr>
 " Show commands.
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+nnoremap <silent> <space>sc  :<C-u>CocList commands<cr>
 " Find symbol of current document.
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+nnoremap <silent> <space>so  :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <space>ss  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+nnoremap <silent> <space>sj  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+nnoremap <silent> <space>sk  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent> <space>sp  :<C-u>CocListResume<CR>
 
 let g:coc_global_extensions = [ 'coc-tsserver', 'coc-phpls']
 
@@ -399,18 +413,53 @@ endfunction
 autocmd CursorHoldI * :call <SID>show_hover_doc()
 autocmd CursorHold * :call <SID>show_hover_doc()
 
+let g:prettier#autoformat = 1
+let g:prettier#autoformat_require_pragma = 0
+let g:prettier#autoformat_config_present = 1
+autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
+let g:prettier#config#use_tabs = 'false'
+"let g:prettier#autoformat_config_files = ['.prettierrc.json']
+"autocmd FileType javascript setlocal formatprg=npx\ prettier
+
+
+
+"
+"
 "Latex configuration
+"
+"
 let g:tex_flavor = 'latex'
 
 "
 "
+"Python Configuration
+"
+"
+" Always use the same virtualenv for vim, regardless of what Python
+" environment is loaded in the shell from which vim is launched
+"let g:vim_virtualenv_path = './venv/'
+"let g:vim_virtualenv_bin = 'bin/activate_this.py'
+"if isdirectory(eval('g:vim_virtualenv_path'))
+"if filereadable(eval('g:vim_virtualenv_bin'))
+"if exists('g:vim_virtualenv_path')
+	"pythonx import os; import vim
+	"pythonx activate_this = os.path.join(vim.eval('g:vim_virtualenv_path'), vim.eval('g:vim_virtualenv_bin'))
+	"pythonx with open(activate_this) as f: exec(f.read(), {'__file__': activate_this})
+"endif
+"endif
+"endif
+let g:python3_host_prog='/usr/bin/python3'
+
+
 "Mapp of keys
 "
 "
 let mapleader=" "
 
+nmap <Leader>n /\<<C-r><C-w>\>/
 nmap <Leader>s <Plug>(easymotion-s2)
 nmap <Leader>nt :NERDTreeFind<CR>
+let NERDTreeShowHidden=1
 
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
@@ -424,4 +473,8 @@ nmap <Leader>tt :TagbarToggle<CR>
 nnoremap <Leader>a :Ack!<Space>
 
 "nmap <Leader>r :echo "hello.."<CR>
-"
+"Getter setter php
+nmap <Leader>g :InsertGetterSetter<CR>
+nmap <Leader>e :so %<CR>
+
+

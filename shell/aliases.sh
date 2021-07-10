@@ -36,3 +36,14 @@ alias ls='ls --color=auto'
 
 # Terraform
 alias tcn="dot terraform espconnect"
+
+#pbcopy
+alias pbcopy='xsel --clipboard --input'
+alias pbpaste='xsel --clipboard --output'
+
+#neovim access
+#alias n='nvim'
+
+#rclone gdrive
+alias fetchdrive='rclone sync -P drive: CloudRoom/'
+alias pulldrive='rclone sync -P CloudRoom drive:'

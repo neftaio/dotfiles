@@ -124,6 +124,7 @@ Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'dense-analysis/ale'
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'jupyter-vim/jupyter-vim'
+Plug 'anosillus/vim-ipynb'
 
 call plug#end()
 
@@ -405,11 +406,14 @@ let g:tex_flavor = 'latex'
 
 " Always use the same virtualenv for vim, regardless of what Python
 " environment is loaded in the shell from which vim is launched
-let g:vim_virtualenv_path = './venv'
+let g:vim_virtualenv_path = './venv/'
+
+if isdirectory(eval('g:vim_virtualenv_path'))
 if exists('g:vim_virtualenv_path')
     pythonx import os; import vim
     pythonx activate_this = os.path.join(vim.eval('g:vim_virtualenv_path'), 'bin/activate_this.py')
     pythonx with open(activate_this) as f: exec(f.read(), {'__file__': activate_this})
+endif
 endif
 
 "
@@ -418,6 +422,7 @@ endif
 "
 "
 let mapleader=" "
+let maplocalleader=" "
 
 nmap <Leader>s <Plug>(easymotion-s2)
 nmap <Leader>nt :NERDTreeFind<CR>
@@ -432,6 +437,7 @@ nmap <Leader>hh <C-w>S
 " TagbarToggle
 nmap <Leader>tt :TagbarToggle<CR>
 nnoremap <Leader>a :Ack!<Space>
+noremap <C-m> :make<BAR>copen<CR>
 
 "nmap <Leader>r :echo "hello.."<CR>
 "
