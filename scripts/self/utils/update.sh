@@ -7,7 +7,8 @@ self_update() {
   cd "$DOTFILES_PATH" || exit
 
   git fetch
-  if [[ "$(project_status)" == "behind" ]]; then
+  status=$(project_status)
+  if [[ "$status" == "behind" ]]; then
     log::note "Needs to pull!"
     git pull && exit 0 || log::error "Failed"
   fi
