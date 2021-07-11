@@ -49,6 +49,8 @@ apply_macos_symlinks() {
 }
 
 project_status() {
+  echo "Verify project status"
+
   cd "$DOTFILES_PATH" || exit
 
   local -r UPSTREAM="master"
