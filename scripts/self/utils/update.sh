@@ -56,6 +56,8 @@ project_status() {
   local -r REMOTE=$(git rev-parse "$UPSTREAM")
   local -r BASE=$(git merge-base @ "$UPSTREAM")
 
+  echo "The variables local: $LOCAL, remote: $REMOTE, base: $BASE"
+
   if [[ "$LOCAL" == "$REMOTE" ]]; then
     echo "synced"
   elif [[ "$LOCAL" == "$BASE" ]]; then
