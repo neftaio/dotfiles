@@ -46,4 +46,4 @@ alias pbpaste='xsel --clipboard --output'
 
 #rclone gdrive
 alias fetchdrive='rclone sync -P drive: CloudRoom/'
-alias pulldrive='rclone sync -P CloudRoom drive:'
+alias pushdrive='rclone sync -P CloudRoom drive:'
